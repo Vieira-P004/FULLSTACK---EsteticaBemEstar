@@ -1,0 +1,86 @@
+<section class="tela" id="a-pedidos">
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/admin/clientes">Clientes</a>
+      <a routerLink="/admin/categorias">Categorias</a>
+      <a routerLink="/admin/produtos">Produtos</a>
+      <a routerLink="/admin/servicos">Serviços</a>
+      <a routerLink="/admin/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/admin/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/admin/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Pedidos em aberto</h2>
+
+      <form class="busca" (submit)="$event.preventDefault(); filtrar()">
+        <select [formControl]="filtroStatus" aria-label="Situação" style="max-width:220px">
+          <option value="">Todas as situações</option>
+          @for (s of opcoesStatus; track s) { <option [value]="s">{{ s }}</option> }
+        </select>
+        <input type="number" min="1" [formControl]="buscaId" placeholder="Buscar por nº do pedido"
+               aria-label="Número" style="max-width:220px">
+        <button class="btn" type="submit">Filtrar</button>
+      </form>
+
+      @if (mensagem(); as m) {
+        <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+      }
+
+      @if (carregando()) {
+        <p>Carregando pedidos...</p>
+      } @else if (pedidos().length === 0 && !mensagem()) {
+        <p>Nenhum pedido encontrado para este filtro.</p>
+      }
+
+      @for (p of pedidos(); track p.idAtendimento) {
+        <article class="pedido">
+          <header>
+            <strong>Pedido nº {{ p.idAtendimento }}</strong>
+            <span>Cliente {{ p.idPessoa }} · {{ p.nomeCliente }}</span>
+            <span>{{ p.dataAtendimento | date:'dd/MM/yyyy' }}</span>
+            <strong>{{ p.valorTotal | currency:'BRL' }}</strong>
+            <span [class]="'tag ' + statusClasse(p.statusAtendimento)">{{ statusTexto(p.statusAtendimento) }}</span>
+
+            @if (proximosStatus(p.statusAtendimento).length > 0) {
+              <form style="display:flex;gap:.5rem" (submit)="$event.preventDefault(); atualizarStatus(p, novo.value)">
+                <select #novo aria-label="Nova situação">
+                  @for (s of proximosStatus(p.statusAtendimento); track s) { <option [value]="s">{{ s }}</option> }
+                </select>
+                <button class="btn peq" type="submit" [disabled]="atualizandoId() === p.idAtendimento">
+                  {{ atualizandoId() === p.idAtendimento ? 'Atualizando...' : 'Atualizar status' }}
+                </button>
+              </form>
+            } @else {
+              <span class="tag">Situação final</span>
+            }
+          </header>
+
+          <div class="rolagem">
+            <table>
+              <thead><tr><th>Item</th><th>Funcionário</th><th>Cargo</th><th>Qtd.</th><th>Valor</th></tr></thead>
+              <tbody>
+                @for (i of p.itens; track $index) {
+                  <tr>
+                    <td>{{ i.item }}</td>
+                    <td>{{ i.nomeFuncionario ?? '—' }}</td>
+                    <td>{{ i.cargoFuncionario ?? '—' }}</td>
+                    <td>{{ i.quantidade }}</td>
+                    <td>{{ i.valorUnitario | currency:'BRL' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

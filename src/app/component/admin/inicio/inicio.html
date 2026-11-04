@@ -1,0 +1,44 @@
+<section class="tela" id="admin">
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/admin/clientes">Clientes</a>
+      <a routerLink="/admin/categorias">Categorias</a>
+      <a routerLink="/admin/produtos">Produtos</a>
+      <a routerLink="/admin/servicos">Serviços</a>
+      <a routerLink="/admin/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/admin/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/admin/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Resumo do sistema</h2>
+
+      @if (carregando()) {
+        <p>Carregando resumo...</p>
+      } @else {
+        @if (falhas() > 0) {
+          <div class="msg err" role="alert">
+            Não foi possível carregar {{ falhas() }} {{ falhas() === 1 ? 'informação' : 'informações' }}.
+            Verifique se a API está em execução.
+            <button class="btn peq" (click)="carregar()">Tentar novamente</button>
+          </div>
+        }
+
+        <div class="kpis">
+          @for (k of indicadores(); track k.titulo) {
+            <a class="kpi" [routerLink]="k.rota" style="text-decoration:none;color:inherit">
+              <b>{{ k.valor ?? '—' }}</b>{{ k.titulo }}
+            </a>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>

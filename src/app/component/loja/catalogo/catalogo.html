@@ -1,0 +1,70 @@
+<section class="tela" id="catalogo">
+  <nav class="topo">
+    <a class="logo" routerLink="/">minhaloja</a>
+    <a routerLink="/">Loja</a>
+    <a routerLink="/cadastro">Cadastro</a>
+    <a routerLink="/meus-pedidos">Meus pedidos</a>
+    <a routerLink="/carrinho">Carrinho ({{ carrinho.totalItens() }})</a>
+    <a routerLink="/admin">Administração</a>
+  </nav>
+
+  <div class="faixa">
+    <div class="menu-cat">
+      <a href="javascript:void(0)" (click)="filtrarPorCategoria(null)">Todos os produtos</a>
+      @for (c of categorias(); track c.idCategoria) {
+        <a href="javascript:void(0)" (click)="filtrarPorCategoria(c.idCategoria)">{{ c.categoria }}</a>
+      }
+    </div>
+  </div>
+
+  <main>
+    @if (mensagem(); as m) {
+      <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+    }
+
+    <form class="busca" (submit)="$event.preventDefault()">
+      <input type="search" name="termo" placeholder="Digite o produto ou serviço desejado" aria-label="Buscar"
+             [ngModel]="termo()" (ngModelChange)="termo.set($event)">
+      <select name="tipo" aria-label="Tipo" style="max-width:160px"
+              [ngModel]="tipo()" (ngModelChange)="tipo.set($event)">
+        <option value="">Todos</option>
+        <option value="P">Produto</option>
+        <option value="S">Serviço</option>
+      </select>
+    </form>
+
+    @if (carregando()) {
+      <p>Carregando catálogo...</p>
+    } @else if (itensFiltrados().length === 0) {
+      <p>Nenhum produto ou serviço encontrado para este filtro.</p>
+    } @else {
+      <div class="grade">
+        @for (i of itensFiltrados(); track i.idItem) {
+          <article class="card">
+            <div class="foto">Imagem</div>
+            <div class="corpo">
+              <span class="tag">{{ i.nomeCategoria }} · {{ i.tipoItem === 'P' ? 'Produto' : 'Serviço' }}</span>
+              <h3>{{ i.item }}</h3>
+              <p>{{ i.descricaoItem }}</p>
+
+              @if (i.tipoItem === 'S') {
+                <span class="tag">Sob agendamento</span>
+              } @else if (semEstoque(i)) {
+                <span class="tag off">Sem estoque</span>
+              } @else {
+                <span class="tag ok">{{ i.quantidadeEstoque }} em estoque</span>
+              }
+
+              <span class="preco">{{ i.preco | currency:'BRL' }}</span>
+              <button class="btn" [disabled]="semEstoque(i)" (click)="adicionar(i)">
+                {{ semEstoque(i) ? 'Indisponível' : 'Adicionar' }}
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    }
+  </main>
+
+  <footer class="rodape">Contatos · contato@minhaloja.com.br · © 2026 Minha Loja. Todos os direitos reservados.</footer>
+</section>

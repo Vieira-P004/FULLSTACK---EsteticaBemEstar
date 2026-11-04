@@ -1,0 +1,72 @@
+<section class="tela" id="a-estoque">
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/admin/clientes">Clientes</a>
+      <a routerLink="/admin/categorias">Categorias</a>
+      <a routerLink="/admin/produtos">Produtos</a>
+      <a routerLink="/admin/servicos">Serviços</a>
+      <a routerLink="/admin/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/admin/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/admin/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Estoque</h2>
+
+      <form class="busca" (submit)="$event.preventDefault(); buscar()">
+        <input type="number" min="1" [formControl]="buscaId" placeholder="Buscar por ID do item"
+               aria-label="ID do item" style="max-width:240px">
+        <button class="btn" type="submit">Buscar</button>
+        <button class="btn claro" type="button" (click)="listarTudo()">Listar tudo</button>
+      </form>
+
+      @if (mensagem(); as m) {
+        <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+      }
+
+      @if (carregando()) {
+        <p>Carregando estoque...</p>
+      } @else if (itens().length === 0 && !mensagem()) {
+        <p>Nenhum item encontrado no estoque.</p>
+      } @else if (itens().length > 0) {
+        <div class="rolagem">
+          <table>
+            <thead>
+              <tr>
+                <th>ID item</th><th>Item</th><th>Descrição</th><th>Preço</th><th>Preço de venda</th>
+                <th>Un.</th><th>Categoria</th><th>Qtd. em estoque</th><th>Ativo</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (i of itens(); track i.idItem) {
+                <tr>
+                  <td>{{ i.idItem }}</td>
+                  <td>{{ i.item }}</td>
+                  <td>{{ i.descricaoItem }}</td>
+                  <td>{{ i.preco | currency:'BRL' }}</td>
+                  <td>{{ i.precoVenda | currency:'BRL' }}</td>
+                  <td>{{ i.unidade }}</td>
+                  <td>{{ i.categoria }}</td>
+                  <td>
+                    {{ i.quantidadeEstoque }}
+                    @if (estoqueBaixo(i)) {
+                      <span class="tag off">{{ i.quantidadeEstoque === 0 ? 'Zerado' : 'Baixo' }}</span>
+                    }
+                  </td>
+                  <td><span class="tag" [class.ok]="ativo(i)" [class.off]="!ativo(i)">{{ ativo(i) ? 'Sim' : 'Não' }}</span></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

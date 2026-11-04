@@ -1,0 +1,71 @@
+<section class="tela" id="pedidos">
+  <nav class="topo">
+    <a class="logo" routerLink="/">minhaloja</a>
+    <a routerLink="/">Loja</a>
+    <a routerLink="/cadastro">Cadastro</a>
+    <a routerLink="/meus-pedidos">Meus pedidos</a>
+    <a routerLink="/carrinho">Carrinho ({{ carrinho.totalItens() }})</a>
+  </nav>
+
+  <div class="faixa"><h1>Meus pedidos</h1></div>
+
+  <main>
+    @if (mensagem(); as m) {
+      <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+    }
+
+    <form class="busca" (submit)="$event.preventDefault(); consultar()">
+      <input type="text" name="cpf" inputmode="numeric" maxlength="14" placeholder="Informe seu CPF para consultar"
+             aria-label="CPF" [ngModel]="cpf()" (ngModelChange)="cpf.set($event)">
+      <button class="btn" [disabled]="carregando()">{{ carregando() ? 'Consultando...' : 'Consultar' }}</button>
+    </form>
+
+    @if (consultou()) {
+      <p>Pedidos de <strong>{{ nomeCliente() }}</strong></p>
+
+      @if (pedidos().length === 0) {
+        <p>Você ainda não fez nenhum pedido.</p>
+        <a class="btn claro" routerLink="/">Ir para o catálogo</a>
+      } @else {
+        <div class="rolagem">
+          <table>
+            <thead>
+              <tr><th>Nº</th><th>Data</th><th>Valor total</th><th>Situação</th><th></th></tr>
+            </thead>
+            <tbody>
+              @for (p of pedidos(); track p.idAtendimento) {
+                <tr>
+                  <td>{{ p.idAtendimento }}</td>
+                  <td>{{ p.dataAtendimento | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ p.valorTotal | currency:'BRL' }}</td>
+                  <td><span [class]="'tag ' + statusClasse(p.statusAtendimento)">{{ statusTexto(p.statusAtendimento) }}</span></td>
+                  <td><button class="btn peq" (click)="verItens(p)">Ver itens</button></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    @if (detalhe(); as d) {
+      <h3>Itens do pedido {{ d.idAtendimento }}</h3>
+      <div class="rolagem">
+        <table>
+          <thead><tr><th>Item</th><th>Qtd.</th><th>Preço na compra</th><th>Subtotal</th></tr></thead>
+          <tbody>
+            @for (i of d.itens; track $index) {
+              <tr>
+                <td>{{ i.item }}</td>
+                <td>{{ i.quantidade }}</td>
+                <td>{{ i.valorUnitario | currency:'BRL' }}</td>
+                <td>{{ i.valorUnitario * i.quantidade | currency:'BRL' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="acoes"><button class="btn claro" (click)="fecharDetalhe()">Fechar detalhes</button></div>
+    }
+  </main>
+</section>

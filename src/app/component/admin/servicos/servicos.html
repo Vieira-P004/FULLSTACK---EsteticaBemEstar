@@ -1,0 +1,110 @@
+<section class="tela" id="a-servicos">
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/admin/clientes">Clientes</a>
+      <a routerLink="/admin/categorias">Categorias</a>
+      <a routerLink="/admin/produtos">Produtos</a>
+      <a routerLink="/admin/servicos">Serviços</a>
+      <a routerLink="/admin/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/admin/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/admin/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Serviços</h2>
+
+      @if (mensagem(); as m) {
+        <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+      }
+
+      <form class="form" style="margin:0 0 1.5rem" [formGroup]="form" (ngSubmit)="salvar()" novalidate>
+        <h3 style="margin-top:0">{{ editandoId() === null ? 'Novo serviço' : 'Editar serviço ' + editandoId() }}</h3>
+        <div class="grade">
+          <div>
+            <label for="sn">Nome *</label>
+            <input id="sn" maxlength="40" formControlName="item">
+            @if (erro('item'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="sc">Categoria *</label>
+            <select id="sc" formControlName="idCategoria">
+              <option [ngValue]="0">Selecione</option>
+              @for (c of categorias(); track c.idCategoria) { <option [ngValue]="c.idCategoria">{{ c.categoria }}</option> }
+            </select>
+            @if (erro('idCategoria'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="sp">Preço (R$) *</label>
+            <input id="sp" type="number" step="0.01" min="0" formControlName="preco">
+            @if (erro('preco'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="ss">Situação</label>
+            <select id="ss" formControlName="ativo">
+              <option value="S">Ativo</option>
+              <option value="N">Inativo</option>
+            </select>
+          </div>
+        </div>
+        <label for="sd">Descrição</label>
+        <textarea id="sd" rows="2" maxlength="200" formControlName="descricaoItem"></textarea>
+        @if (erro('descricaoItem'); as e) { <p class="erro">{{ e }}</p> }
+
+        <div class="acoes">
+          <button class="btn" type="submit" [disabled]="salvando()">
+            {{ salvando() ? 'Salvando...' : (editandoId() === null ? 'Salvar' : 'Atualizar') }}
+          </button>
+          @if (editandoId() === null) {
+            <button class="btn vermelho" type="button" (click)="limpar()">Limpar</button>
+          } @else {
+            <button class="btn claro" type="button" (click)="cancelarEdicao()">Cancelar edição</button>
+          }
+        </div>
+      </form>
+
+      <form class="busca" (submit)="$event.preventDefault(); buscar()">
+        <input type="number" min="1" [formControl]="buscaId" placeholder="Buscar por ID" aria-label="ID" style="max-width:200px">
+        <button class="btn" type="submit">Buscar</button>
+        <button class="btn claro" type="button" (click)="carregar()">Listar todos</button>
+      </form>
+
+      @if (carregando()) {
+        <p>Carregando serviços...</p>
+      } @else if (servicos().length === 0) {
+        <p>Nenhum serviço encontrado.</p>
+      } @else {
+        <div class="rolagem">
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Situação</th><th>Ações</th></tr>
+            </thead>
+            <tbody>
+              @for (s of servicos(); track s.idItem) {
+                <tr>
+                  <td>{{ s.idItem }}</td>
+                  <td>{{ s.item }}</td>
+                  <td>{{ nomeCategoria(s.idCategoria) }}</td>
+                  <td>{{ s.preco | currency:'BRL' }}</td>
+                  <td><span class="tag" [class.ok]="ativo(s)" [class.off]="!ativo(s)">{{ ativo(s) ? 'Ativo' : 'Inativo' }}</span></td>
+                  <td>
+                    <button class="btn peq" (click)="editar(s)">Editar</button>
+                    <button class="btn peq" [class.vermelho]="ativo(s)" (click)="alternarSituacao(s)">
+                      {{ ativo(s) ? 'Desativar' : 'Ativar' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

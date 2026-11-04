@@ -1,0 +1,126 @@
+<section class="tela" id="a-produtos">
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/admin/clientes">Clientes</a>
+      <a routerLink="/admin/categorias">Categorias</a>
+      <a routerLink="/admin/produtos">Produtos</a>
+      <a routerLink="/admin/servicos">Serviços</a>
+      <a routerLink="/admin/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/admin/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/admin/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Produtos</h2>
+
+      @if (mensagem(); as m) {
+        <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+      }
+
+      <form class="form" style="margin:0 0 1.5rem" [formGroup]="form" (ngSubmit)="salvar()" novalidate>
+        <h3 style="margin-top:0">{{ editandoId() === null ? 'Novo produto' : 'Editar produto ' + editandoId() }}</h3>
+        <div class="grade">
+          <div>
+            <label for="pn">Nome *</label>
+            <input id="pn" maxlength="40" formControlName="item">
+            @if (erro('item'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="pc">Categoria *</label>
+            <select id="pc" formControlName="idCategoria">
+              <option [ngValue]="0">Selecione</option>
+              @for (c of categorias(); track c.idCategoria) { <option [ngValue]="c.idCategoria">{{ c.categoria }}</option> }
+            </select>
+            @if (erro('idCategoria'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="pcp">Código de preço</label>
+            <input id="pcp" type="number" formControlName="codigoPreco">
+          </div>
+          <div>
+            <label for="pp">Preço (R$) *</label>
+            <input id="pp" type="number" step="0.01" min="0" formControlName="preco">
+            @if (erro('preco'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="pv">Preço de venda</label>
+            <input id="pv" disabled
+                   [value]="precoVendaEdicao() !== null ? (precoVendaEdicao() | currency:'BRL') : 'Calculado pelo banco'">
+          </div>
+          <div>
+            <label for="pu">Unidade *</label>
+            <input id="pu" maxlength="10" placeholder="un, ml, g" formControlName="unidade">
+            @if (erro('unidade'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="ps">Situação</label>
+            <select id="ps" formControlName="ativo">
+              <option value="S">Ativo</option>
+              <option value="N">Inativo</option>
+            </select>
+          </div>
+        </div>
+        <label for="pd">Descrição</label>
+        <textarea id="pd" rows="2" maxlength="200" formControlName="descricaoItem"></textarea>
+        @if (erro('descricaoItem'); as e) { <p class="erro">{{ e }}</p> }
+
+        <div class="acoes">
+          <button class="btn" type="submit" [disabled]="salvando()">
+            {{ salvando() ? 'Salvando...' : (editandoId() === null ? 'Salvar' : 'Atualizar') }}
+          </button>
+          @if (editandoId() === null) {
+            <button class="btn vermelho" type="button" (click)="limpar()">Limpar</button>
+          } @else {
+            <button class="btn claro" type="button" (click)="cancelarEdicao()">Cancelar edição</button>
+          }
+        </div>
+      </form>
+
+      <form class="busca" (submit)="$event.preventDefault(); buscar()">
+        <input type="number" min="1" [formControl]="buscaId" placeholder="Buscar por ID" aria-label="ID" style="max-width:200px">
+        <button class="btn" type="submit">Buscar</button>
+        <button class="btn claro" type="button" (click)="carregar()">Listar todos</button>
+      </form>
+
+      @if (carregando()) {
+        <p>Carregando produtos...</p>
+      } @else if (produtos().length === 0) {
+        <p>Nenhum produto encontrado.</p>
+      } @else {
+        <div class="rolagem">
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Venda</th><th>Un.</th><th>Situação</th><th>Ações</th></tr>
+            </thead>
+            <tbody>
+              @for (p of produtos(); track p.idItem) {
+                <tr>
+                  <td>{{ p.idItem }}</td>
+                  <td>{{ p.item }}</td>
+                  <td>{{ nomeCategoria(p.idCategoria) }}</td>
+                  <td>{{ p.preco | currency:'BRL' }}</td>
+                  <td>{{ p.precoVenda !== null ? (p.precoVenda | currency:'BRL') : '—' }}</td>
+                  <td>{{ p.unidade }}</td>
+                  <td><span class="tag" [class.ok]="ativo(p)" [class.off]="!ativo(p)">{{ ativo(p) ? 'Ativo' : 'Inativo' }}</span></td>
+                  <td>
+                    <button class="btn peq" (click)="editar(p)">Editar</button>
+                    <button class="btn peq" [class.vermelho]="ativo(p)" (click)="alternarSituacao(p)">
+                      {{ ativo(p) ? 'Desativar' : 'Ativar' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

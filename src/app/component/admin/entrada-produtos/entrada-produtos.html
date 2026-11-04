@@ -1,0 +1,92 @@
+<section class="tela" id="a-entrada">
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/admin/clientes">Clientes</a>
+      <a routerLink="/admin/categorias">Categorias</a>
+      <a routerLink="/admin/produtos">Produtos</a>
+      <a routerLink="/admin/servicos">Serviços</a>
+      <a routerLink="/admin/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/admin/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/admin/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Entrada de produtos</h2>
+
+      @if (mensagem(); as m) {
+        <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+      }
+
+      <form class="form" style="margin:0 0 1.5rem" [formGroup]="form" (ngSubmit)="registrar()" novalidate>
+        <div class="grade">
+          <div>
+            <label for="ep">Produto *</label>
+            <select id="ep" formControlName="idItem">
+              <option [ngValue]="0">Selecione</option>
+              @for (p of produtos(); track p.idItem) {
+                <option [ngValue]="p.idItem">{{ p.idItem }} – {{ p.item }}</option>
+              }
+            </select>
+            @if (erro('idItem'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="ed">Data de entrada *</label>
+            <input id="ed" type="date" formControlName="dataEntrada">
+            @if (erro('dataEntrada'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="eq">Quantidade *</label>
+            <input id="eq" type="number" min="1" step="1" formControlName="quantidade">
+            @if (erro('quantidade'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="eu">Unidade *</label>
+            <input id="eu" maxlength="10" formControlName="unidade" placeholder="un, ml, g">
+            @if (erro('unidade'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+          <div>
+            <label for="ev">Valor unitário (R$) *</label>
+            <input id="ev" type="number" step="0.01" min="0" formControlName="valorUnitario">
+            @if (erro('valorUnitario'); as e) { <p class="erro">{{ e }}</p> }
+          </div>
+        </div>
+        <div class="acoes">
+          <button class="btn" type="submit" [disabled]="salvando()">{{ salvando() ? 'Registrando...' : 'Registrar entrada' }}</button>
+          <button class="btn vermelho" type="button" (click)="limpar()">Limpar</button>
+        </div>
+      </form>
+
+      <h3>Últimas entradas</h3>
+      @if (carregando()) {
+        <p>Carregando...</p>
+      } @else if (entradas().length === 0) {
+        <p>Nenhuma entrada registrada.</p>
+      } @else {
+        <div class="rolagem">
+          <table>
+            <thead><tr><th>Nº</th><th>Produto</th><th>Data</th><th>Qtd.</th><th>Un.</th><th>Valor unitário</th></tr></thead>
+            <tbody>
+              @for (e of entradas(); track e.idEntradaProduto) {
+                <tr>
+                  <td>{{ e.idEntradaProduto }}</td>
+                  <td>{{ nomeProduto(e.idItem) }}</td>
+                  <td>{{ e.dataEntrada | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ e.quantidadeEntrada }}</td>
+                  <td>{{ e.unidade }}</td>
+                  <td>{{ e.valorUnitarioEntrada | currency:'BRL' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

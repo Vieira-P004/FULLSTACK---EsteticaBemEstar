@@ -1,0 +1,57 @@
+<section class="tela" id="a-clientes">
+    <nav class="topo">
+        <a class="logo" href="#admin">minhaloja</a><span>Administração</span><a href="#catalogo">Ir para a loja</a>
+    </nav>
+    <div class="admin">
+        <aside class="lateral">
+            <a href="#admin">Início</a>
+            <a href="#a-clientes">Clientes</a>
+            <a href="#a-categorias">Categorias</a>
+            <a href="#a-produtos">Produtos</a>
+            <a href="#a-servicos">Serviços</a>
+            <a href="#a-pedidos">Pedidos</a>
+            <a href="#a-entrada">Entrada de produtos</a>
+            <a href="#a-estoque">Estoque</a>
+        </aside>
+        <div class="painel">
+            <h2>Clientes</h2>
+            <form class="busca" onsubmit="return false">
+                <input type="number" placeholder="Buscar por ID" aria-label="ID" style="max-width:200px">
+                <button class="btn">Buscar</button>
+                <button type="reset" class="btn claro">Listar todos</button>
+            </form>
+            <div class="rolagem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Ativo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Maria Souza</td>
+                            <td>12345678901</td>
+                            <td>maria@email.com</td>
+                            <td>79999990000</td>
+                            <td><span class="tag ok">Sim</span></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>João Lima</td>
+                            <td>98765432100</td>
+                            <td>joao@email.com</td>
+                            <td>79988880000</td>
+                            <td><span class="tag ok">Sim</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

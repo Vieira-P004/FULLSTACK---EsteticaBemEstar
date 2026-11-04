@@ -1,0 +1,70 @@
+<section class="tela" id="carrinho">
+  <nav class="topo">
+    <a class="logo" routerLink="/">minhaloja</a>
+    <a routerLink="/">Loja</a>
+    <a routerLink="/cadastro">Cadastro</a>
+    <a routerLink="/meus-pedidos">Meus pedidos</a>
+    <a routerLink="/carrinho">Carrinho ({{ carrinho.totalItens() }})</a>
+  </nav>
+
+  <div class="faixa"><h1>Carrinho</h1></div>
+
+  <main>
+    @if (mensagem(); as m) {
+      <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+    }
+
+    @if (carrinho.itens().length === 0) {
+      <p>Seu carrinho está vazio.</p>
+      <a class="btn claro" routerLink="/">Ir para o catálogo</a>
+    } @else {
+      <div class="duas">
+        <div class="rolagem">
+          <table>
+            <thead>
+              <tr><th>Item</th><th>Tipo</th><th>Unitário</th><th>Qtd.</th><th>Subtotal</th><th></th></tr>
+            </thead>
+            <tbody>
+              @for (i of carrinho.itens(); track i.item.idItem) {
+                <tr>
+                  <td>{{ i.item.item }}</td>
+                  <td><span class="tag">{{ ehProduto(i) ? 'Produto' : 'Serviço' }}</span></td>
+                  <td>{{ i.item.preco | currency:'BRL' }}</td>
+                  <td>
+                    @if (ehProduto(i)) {
+                      <input type="number" min="1" [max]="i.item.quantidadeEstoque ?? 1"
+                             [value]="i.quantidade" aria-label="Quantidade"
+                             (change)="alterarQuantidade(i, $any($event.target).value)">
+                      <div class="erro">Máx. {{ i.item.quantidadeEstoque }} (estoque)</div>
+                    } @else {
+                      1
+                    }
+                  </td>
+                  <td>{{ i.item.preco * i.quantidade | currency:'BRL' }}</td>
+                  <td><button class="btn peq vermelho" (click)="remover(i)">Remover</button></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <aside class="resumo">
+          <label for="cpf">CPF do cliente *</label>
+          <input id="cpf" inputmode="numeric" maxlength="14" placeholder="Somente números"
+                 [ngModel]="cpf()" (ngModelChange)="cpf.set($event)">
+          <p class="erro"><a routerLink="/cadastro">Ainda não tem cadastro?</a></p>
+
+          <div class="linha"><span>Itens</span><span>{{ carrinho.totalItens() }}</span></div>
+          <div class="linha total"><span>Total</span><span>{{ carrinho.valorTotal() | currency:'BRL' }}</span></div>
+
+          <div class="acoes">
+            <button class="btn vermelho" [disabled]="enviando()" (click)="confirmar()">
+              {{ enviando() ? 'Enviando...' : 'Confirmar pedido' }}
+            </button>
+            <a class="btn claro" routerLink="/">Continuar comprando</a>
+          </div>
+        </aside>
+      </div>
+    }
+  </main>
+</section>

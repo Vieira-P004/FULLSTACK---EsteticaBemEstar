@@ -1,0 +1,88 @@
+.admin{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    min-height:70vh
+}
+
+.lateral{
+    background:var(--sage);
+    padding:1rem;
+    display:flex;
+    flex-direction:column;
+    gap:.2rem
+}
+
+.lateral a{
+    padding:.5rem .7rem;
+    border-radius:4px;
+    text-decoration:none
+}
+
+.lateral a:hover{
+    background:#fff
+}
+
+.painel{
+    padding:1.5rem;
+    min-width:0
+}
+
+.painel h2{
+    margin-top:0
+}
+
+.kpis{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1rem;margin-bottom:1.5rem
+}
+
+.kpi{
+    background:var(--papel);
+    border:1px solid var(--borda);
+    border-left:5px solid var(--verde);
+    border-radius:6px;padding:1rem
+}
+
+.kpi b{
+    display:block;
+    font:700 1.8rem Georgia,serif
+}
+
+.pedido{
+    border:1px solid var(--borda);
+    border-radius:6px;
+    margin-bottom:1rem
+}
+
+.pedido header{
+    background:var(--papel);
+    padding:.7rem 1rem;
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:center
+}
+
+.pedido .rolagem{
+    padding:0 1rem 1rem
+}
+
+.rodape{
+    background:var(--verde);
+    color:#fff;
+    text-align:center;
+    padding:1.5rem;
+    font-size:.85rem
+}
+
+@media(max-width:760px){
+    .duas,.admin{
+        grid-template-columns:1fr
+    }
+    .lateral{
+        flex-direction:row;
+        flex-wrap:wrap
+    }
+}

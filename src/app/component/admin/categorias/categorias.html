@@ -1,0 +1,71 @@
+<section class="tela" id="a-categorias">
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/admin/clientes">Clientes</a>
+      <a routerLink="/admin/categorias">Categorias</a>
+      <a routerLink="/admin/produtos">Produtos</a>
+      <a routerLink="/admin/servicos">Serviços</a>
+      <a routerLink="/admin/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/admin/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/admin/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Categorias</h2>
+
+      @if (mensagem(); as m) {
+        <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+      }
+
+      <form class="busca" (submit)="$event.preventDefault(); salvar()">
+        <input [formControl]="nome" maxlength="35" aria-label="Categoria"
+               [placeholder]="editandoId() === null ? 'Nova categoria' : 'Editar categoria'">
+        <button class="btn" type="submit" [disabled]="salvando()">
+          {{ editandoId() === null ? 'Salvar' : 'Atualizar' }}
+        </button>
+        @if (editandoId() !== null) {
+          <button class="btn claro" type="button" (click)="cancelarEdicao()">Cancelar</button>
+        }
+      </form>
+      @if (nome.touched && nome.errors?.['required']) { <p class="erro">Informe o nome da categoria.</p> }
+      @if (nome.errors?.['maxlength']) { <p class="erro">Máximo de 35 caracteres.</p> }
+
+      <form class="busca" (submit)="$event.preventDefault(); buscar()">
+        <input type="number" min="1" [formControl]="buscaId" placeholder="Buscar por ID" aria-label="ID" style="max-width:200px">
+        <button class="btn">Buscar</button>
+        <button class="btn claro" type="button" (click)="limparBusca()">Listar todas</button>
+      </form>
+
+      @if (carregando()) {
+        <p>Carregando categorias...</p>
+      } @else if (categorias().length === 0) {
+        <p>Nenhuma categoria encontrada.</p>
+      } @else {
+        <div class="rolagem">
+          <table>
+            <thead><tr><th>ID</th><th>Categoria</th><th>Ações</th></tr></thead>
+            <tbody>
+              @for (c of categorias(); track c.idCategoria) {
+                <tr>
+                  <td>{{ c.idCategoria }}</td>
+                  <td>{{ c.categoria }}</td>
+                  <td>
+                    <button class="btn peq" (click)="editar(c)">Editar</button>
+                    <button class="btn peq vermelho" (click)="excluir(c)">Excluir</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</section>

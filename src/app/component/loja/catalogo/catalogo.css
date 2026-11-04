@@ -1,0 +1,63 @@
+.card{
+    background:#fff;
+    border:1px solid var(--borda);
+    border-radius:6px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column
+}
+
+.foto{
+    aspect-ratio:4/3;
+    background:var(--sage);
+    display:grid;place-items:center;
+    color:var(--verde);
+    font-family:Georgia,serif
+}
+
+.card div.corpo{
+    padding:.8rem;
+    display:flex;
+    flex-direction:column;
+    gap:.3rem;flex:1
+}
+
+.card h3{
+    margin:0;
+    font-size:1.05rem
+}
+
+.card p{
+    margin:0;
+    font-size:.9rem;
+    color:#4b5752
+}
+
+.preco{
+    font-weight:700;
+    margin-top:auto
+}
+
+.tag{
+    display:inline-block;
+    font-size:.75rem;
+    padding:.1rem .5rem;
+    border-radius:99px;
+    background:var(--sage)
+}
+
+.tag.ok{
+    background:#dff0e3
+}
+
+.tag.off{
+    background:#fbe3e3
+}
+
+.tag.aberto{
+    background:#fff1c9
+}
+
+.tag.proc{
+    background:#d8e8f7
+}
