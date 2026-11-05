@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
  
 import { PedidoAdmin } from '../../../model/pedido.model';
 import { PedidoAdminService } from '../../../service/pedidoAdmin.service';
-import { TODOS_STATUS, proximosStatus, statusClasse, statusTexto } from '../../../util/status-pedido';
+import { TODOS_STATUS, proximosStatus, statusClasse, statusTexto } from '../../../util/statusPedido';
 
 @Component({
   imports: [ReactiveFormsModule, RouterLink, CurrencyPipe, DatePipe],
