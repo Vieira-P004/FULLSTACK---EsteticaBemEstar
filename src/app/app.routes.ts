@@ -7,12 +7,12 @@ import { Inicio } from './component/admin/inicio/inicio';
 import { PedidosEmAberto } from './component/admin/pedidos-em-aberto/pedidos-em-aberto';
 import { Produtos } from './component/admin/produtos/produtos';
 import { Servicos } from './component/admin/servicos/servicos';
+import { Categorias } from './component/admin/categorias/categorias';
 
 import { CadCliente } from './component/loja/cad-cliente/cad-cliente';
 import { Carrinho } from './component/loja/carrinho/carrinho';
 import { Catalogo } from './component/loja/catalogo/catalogo';
 import { MeusPedidos } from './component/loja/meus-pedidos/meus-pedidos';
-import { Categorias } from './component/admin/categorias/categorias';
 
 export const routes: Routes = [
     {

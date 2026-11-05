@@ -1,63 +1,24 @@
-.card{
-    background:#fff;
-    border:1px solid var(--borda);
-    border-radius:6px;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column
+/* #catalogo — vitrine de produtos e serviços */
+#catalogo .busca { background: var(--sage); padding: 1rem; border-radius: var(--raio); }
+
+#catalogo .grade { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.2rem; }
+
+.card {
+  background: #fff; border: 1px solid var(--borda); border-radius: var(--raio);
+  overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: var(--sombra); transition: transform .15s, box-shadow .15s;
+}
+.card:hover { transform: translateY(-2px); box-shadow: 0 2px 6px rgb(34 63 56 / .18), 0 8px 20px rgb(34 63 56 / .1); }
+
+.foto {
+  aspect-ratio: 4 / 3; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--sage), #eef1ed);
+  color: var(--verde); font-family: Georgia, serif; font-size: 1.1rem;
 }
 
-.foto{
-    aspect-ratio:4/3;
-    background:var(--sage);
-    display:grid;place-items:center;
-    color:var(--verde);
-    font-family:Georgia,serif
-}
-
-.card div.corpo{
-    padding:.8rem;
-    display:flex;
-    flex-direction:column;
-    gap:.3rem;flex:1
-}
-
-.card h3{
-    margin:0;
-    font-size:1.05rem
-}
-
-.card p{
-    margin:0;
-    font-size:.9rem;
-    color:#4b5752
-}
-
-.preco{
-    font-weight:700;
-    margin-top:auto
-}
-
-.tag{
-    display:inline-block;
-    font-size:.75rem;
-    padding:.1rem .5rem;
-    border-radius:99px;
-    background:var(--sage)
-}
-
-.tag.ok{
-    background:#dff0e3
-}
-
-.tag.off{
-    background:#fbe3e3
-}
-
-.tag.aberto{
-    background:#fff1c9
-}
-
-.tag.proc{
-    background:#d8e8f7
-}
+.corpo { padding: .9rem; display: flex; flex-direction: column; gap: .35rem; flex: 1; }
+.card h3 { margin: 0; font-size: 1.05rem; }
+.card p { margin: 0; font-size: .9rem; color: var(--texto-suave); }
+.corpo .tag { align-self: flex-start; }
+.preco { margin-top: auto; padding-top: .4rem; font-size: 1.15rem; font-weight: 700; color: var(--verde); }
+.corpo .btn { width: 100%; margin-top: .3rem; }

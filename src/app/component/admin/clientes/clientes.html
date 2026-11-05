@@ -1,57 +1,67 @@
 <section class="tela" id="a-clientes">
-    <nav class="topo">
-        <a class="logo" href="#admin">minhaloja</a><span>Administração</span><a href="#catalogo">Ir para a loja</a>
-    </nav>
-    <div class="admin">
-        <aside class="lateral">
-            <a href="#admin">Início</a>
-            <a href="#a-clientes">Clientes</a>
-            <a href="#a-categorias">Categorias</a>
-            <a href="#a-produtos">Produtos</a>
-            <a href="#a-servicos">Serviços</a>
-            <a href="#a-pedidos">Pedidos</a>
-            <a href="#a-entrada">Entrada de produtos</a>
-            <a href="#a-estoque">Estoque</a>
-        </aside>
-        <div class="painel">
-            <h2>Clientes</h2>
-            <form class="busca" onsubmit="return false">
-                <input type="number" placeholder="Buscar por ID" aria-label="ID" style="max-width:200px">
-                <button class="btn">Buscar</button>
-                <button type="reset" class="btn claro">Listar todos</button>
-            </form>
-            <div class="rolagem">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <th>E-mail</th>
-                            <th>Telefone</th>
-                            <th>Ativo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Maria Souza</td>
-                            <td>12345678901</td>
-                            <td>maria@email.com</td>
-                            <td>79999990000</td>
-                            <td><span class="tag ok">Sim</span></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>João Lima</td>
-                            <td>98765432100</td>
-                            <td>joao@email.com</td>
-                            <td>79988880000</td>
-                            <td><span class="tag ok">Sim</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <nav class="topo">
+    <a class="logo" routerLink="/admin">minhaloja</a>
+    <span>Administração</span>
+    <a routerLink="/">Ir para a loja</a>
+  </nav>
+
+  <div class="admin">
+    <aside class="lateral">
+      <a routerLink="/admin">Início</a>
+      <a routerLink="/clientes">Clientes</a>
+      <a routerLink="/categorias">Categorias</a>
+      <a routerLink="/produtos">Produtos</a>
+      <a routerLink="/servicos">Serviços</a>
+      <a routerLink="/pedidos-em-aberto">Pedidos</a>
+      <a routerLink="/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/estoque">Estoque</a>
+    </aside>
+
+    <div class="painel">
+      <h2>Clientes</h2>
+
+      <form class="busca" (submit)="$event.preventDefault(); buscar()">
+        <input type="number" min="1" [formControl]="buscaId" placeholder="Buscar por ID" aria-label="ID" style="max-width:200px">
+        <button class="btn" type="submit">Buscar</button>
+        <button class="btn claro" type="button" (click)="listar()">Listar todos</button>
+      </form>
+
+      @if (mensagem(); as m) {
+        <div class="msg" [class.ok]="m.tipo === 'ok'" [class.err]="m.tipo === 'err'" role="alert">{{ m.texto }}</div>
+      }
+
+      @if (carregando()) {
+        <p>Carregando clientes...</p>
+      } @else if (clientes().length > 0) {
+        <input type="search" placeholder="Filtrar a lista por nome, CPF ou e-mail" aria-label="Filtrar"
+               style="margin-bottom:1rem" [value]="termo()" (input)="termo.set($any($event.target).value)">
+
+        @if (clientesFiltrados().length === 0) {
+          <p>Nenhum cliente corresponde ao filtro.</p>
+        } @else {
+          <div class="rolagem">
+            <table>
+              <thead>
+                <tr><th>ID</th><th>Nome</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th>Ativo</th></tr>
+              </thead>
+              <tbody>
+                @for (c of clientesFiltrados(); track c.idPessoa) {
+                  <tr>
+                    <td>{{ c.idPessoa }}</td>
+                    <td>{{ c.nome }}</td>
+                    <td>{{ formatarCpf(c.cpf) }}</td>
+                    <td>{{ c.email }}</td>
+                    <td>{{ formatarTelefone(c.telefone) }}</td>
+                    <td><span class="tag" [class.ok]="ativo(c)" [class.off]="!ativo(c)">{{ ativo(c) ? 'Sim' : 'Não' }}</span></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      } @else if (!mensagem()) {
+        <p>Nenhum cliente cadastrado.</p>
+      }
     </div>
+  </div>
 </section>

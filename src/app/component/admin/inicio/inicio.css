@@ -1,3 +1,33 @@
+:root{
+    --verde:#223f38;
+    --verde2:#2f574d;
+    --sage:#d9ded8;
+    --papel:#f6f7f5;
+    --vermelho:#c00000;
+    --texto:#1d2623;
+    --borda:#b9c2bb
+}
+*{
+    box-sizing:border-box
+}
+
+body{
+    margin:0;
+    font:16px/1.5 system-ui,sans-serif;color:var(--texto);
+    background:#fff
+}
+
+h1,h2,h3,.logo{
+    font-family:Georgia,serif
+}
+a{
+    color:inherit
+}
+:focus-visible{
+    outline:3px solid #e0a100;
+    outline-offset:2px
+}
+
 .admin{
     display:grid;
     grid-template-columns:220px 1fr;
