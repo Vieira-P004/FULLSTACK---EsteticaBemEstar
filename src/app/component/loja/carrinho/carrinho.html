@@ -1,9 +1,9 @@
 <section class="tela" id="carrinho">
   <nav class="topo">
-    <a class="logo" routerLink="/">minhaloja</a>
-    <a routerLink="/">Loja</a>
+    <a class="logo" routerLink="/catalogo">minhaloja</a>
+    <a routerLink="/catalogo">Loja</a>
     <a routerLink="/cadastro">Cadastro</a>
-    <a routerLink="/meus-pedidos">Meus pedidos</a>
+    <a routerLink="/meusPedidos">Meus pedidos</a>
     <a routerLink="/carrinho">Carrinho ({{ carrinho.totalItens() }})</a>
   </nav>
 
@@ -16,7 +16,7 @@
 
     @if (carrinho.itens().length === 0) {
       <p>Seu carrinho está vazio.</p>
-      <a class="btn claro" routerLink="/">Ir para o catálogo</a>
+      <a class="btn claro" routerLink="/catalogo">Ir para o catálogo</a>
     } @else {
       <div class="duas">
         <div class="rolagem">

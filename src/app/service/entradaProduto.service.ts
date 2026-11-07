@@ -6,7 +6,7 @@ import { EntradaProduto, EntradaProdutoDto } from '../model/entradaProduto.model
 @Injectable({ providedIn: 'root' })
 export class EntradaProdutoService {
   private http = inject(HttpClient);
-  private url = 'http://localhost:5000/api/entradaprodutos'; // ajuste para a porta da sua API
+  private url = 'https://localhost:7248/api'; // ajuste para a porta da sua API
 
   listar(): Observable<EntradaProduto[]> {
     return this.http.get<EntradaProduto[]>(this.url);

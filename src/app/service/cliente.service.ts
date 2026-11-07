@@ -6,7 +6,7 @@ import { ClienteDto, ViaCepResposta } from '../model/cliente.model';
 @Injectable({ providedIn: 'root' })
 export class ClienteService {
   private http = inject(HttpClient);
-  private api = 'http://localhost:5000/api'; // ajuste para a porta da sua API
+  private api = 'https://localhost:7248/api/PessoaDTO'; // ajuste para a porta da sua API
 
   cadastrar(cliente: ClienteDto): Observable<unknown> {
     return this.http.post(`${this.api}/pessoas`, cliente);

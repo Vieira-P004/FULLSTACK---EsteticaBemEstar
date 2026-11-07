@@ -7,7 +7,7 @@ import { Servico, ServicoDto } from '../model/servico.model';
 export class ServicoService {
   private http = inject(HttpClient);
   // O roteiro usa /api/itens para produtos e serviços.
-  private url = 'http://localhost:5000/api/itens'; // ajuste para a porta da sua API
+  private url = 'https://localhost:7248/api'; // ajuste para a porta da sua API
 
   listar(): Observable<Servico[]> {
     return this.http.get<Servico[]>(this.url);

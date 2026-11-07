@@ -17,7 +17,7 @@ export interface DadosResumo {
 @Injectable({ providedIn: 'root' })
 export class ResumoService {
   private http = inject(HttpClient);
-  private api = 'http://localhost:5000/api'; // ajuste para a porta da sua API
+  private api = 'https://localhost:7248/api'; // ajuste para a porta da sua API
 
   /** Se uma consulta falhar, ela vira null e as outras continuam funcionando. */
   carregar(): Observable<DadosResumo> {

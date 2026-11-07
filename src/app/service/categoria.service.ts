@@ -6,7 +6,7 @@ import { Categoria } from '../model/item.model';
 @Injectable({ providedIn: 'root' })
 export class CategoriaService {
   private http = inject(HttpClient);
-  private url = 'http://localhost:5000/api/categorias'; // ajuste para a porta da sua API
+  private url = 'https://localhost:7248/api/categoriums'; // ajuste para a porta da sua API
 
   listar(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(this.url);

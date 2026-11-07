@@ -1,49 +1,414 @@
-.duas{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:1.5rem
+/* ==========================================================================
+   RESET & VARIÁVEIS DE CORES (TEMA ESTÉTICA / BELEZA)
+   ========================================================================== */
+:host {
+  --cor-fundo: #faf6f0;            /* Nude clarinho de fundo */
+  --cor-superficie: #ffffff;       /* Branco para cards e tabelas */
+  --cor-primaria: #c89d7c;         /* Dourado / Rose Gold suave */
+  --cor-primaria-hover: #b08565;
+  --cor-rosa-suave: #f9ece8;       /* Tom de rosa seco / blush */
+  --cor-texto: #332c28;            /* Marrom bem escuro para o texto */
+  --cor-texto-suave: #736862;
+  --cor-borda: #eae1d8;
+  
+  /* Status & Ações */
+  --cor-sucesso: #4e8061;
+  --cor-sucesso-fundo: #edf5f0;
+  --cor-erro: #c95555;
+  --cor-erro-fundo: #fdf2f2;
+  --cor-erro-hover: #a84242;
+
+  --sombra-card: 0 8px 24px rgba(160, 130, 110, 0.08);
+  --sombra-hover: 0 12px 28px rgba(160, 130, 110, 0.15);
+  --raio-borda: 16px;
+  --fonte-principal: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  
+  display: block;
+  font-family: var(--fonte-principal);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
 }
 
-.resumo{
-    background:var(--papel);
-    border:1px solid var(--borda);
-    border-radius:6px;padding:1.2rem;
-    align-self:start
+/* ==========================================================================
+   ESTRUTURA PRINCIPAL
+   ========================================================================== */
+.tela {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.resumo .linha{
-    display:flex;
-    justify-content:space-between;
-    margin:.4rem 0
+main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto 40px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
-.resumo .total{
-    font-weight:700;
-    font-size:1.15rem;
-    border-top:1px solid var(--borda);
-    padding-top:.5rem
+/* ==========================================================================
+   TOPO / NAVBAR (LOJA PÚBLICA)
+   ========================================================================== */
+.topo {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 32px;
+  background-color: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
-.rolagem{
-    overflow-x:auto
+.topo .logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  text-transform: lowercase;
+  margin-right: auto;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:.92rem
+.topo a:not(.logo) {
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 8px;
 }
 
-th,td{
-    text-align:left;
-    padding:.55rem .7rem;
-    border-bottom:1px solid var(--borda);
-    vertical-align:top
+.topo a:not(.logo):hover {
+  color: var(--cor-primaria);
+  background-color: var(--cor-rosa-suave);
 }
 
-th{
-    background:var(--sage)
+/* ==========================================================================
+   FAIXA DE TÍTULO
+   ========================================================================== */
+.faixa {
+  background-color: var(--cor-rosa-suave);
+  padding: 32px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--cor-borda);
+  margin-bottom: 32px;
 }
-td input[type=number]{
-    width:70px
+
+.faixa h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* ==========================================================================
+   LAYOUT EM 2 COLUNAS (ITENS + RESUMO)
+   ========================================================================== */
+.duas {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.rolagem {
+  flex: 1;
+  overflow-x: auto;
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-superficie);
+  box-shadow: var(--sombra-card);
+}
+
+/* ==========================================================================
+   TABELA DE ITENS DO CARRINHO
+   ========================================================================== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: var(--cor-superficie);
+}
+
+th {
+  background-color: var(--cor-rosa-suave);
+  color: var(--cor-texto);
+  font-weight: 600;
+  padding: 16px 20px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--cor-borda);
+  white-space: nowrap;
+}
+
+td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--cor-borda);
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+  vertical-align: middle;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background-color: rgba(249, 236, 232, 0.4);
+}
+
+/* Input de quantidade na tabela */
+td input[type="number"] {
+  width: 70px;
+  padding: 8px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+td input[type="number"]:focus {
+  border-color: var(--cor-primaria);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(200, 157, 124, 0.15);
+}
+
+/* Remove setas do input number na tabela */
+td input[type="number"]::-webkit-inner-spin-button,
+td input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.erro {
+  font-size: 0.75rem;
+  color: var(--cor-erro);
+  margin-top: 4px;
+}
+
+.erro a {
+  color: var(--cor-primaria);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.erro a:hover {
+  color: var(--cor-primaria-hover);
+}
+
+/* ==========================================================================
+   CARD LATERAL DE RESUMO E FECHAMENTO
+   ========================================================================== */
+.resumo {
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--cor-superficie);
+  padding: 28px;
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-card);
+}
+
+.resumo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+  margin-bottom: -8px;
+}
+
+.resumo input {
+  padding: 12px 16px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.resumo input:focus {
+  border-color: var(--cor-primaria);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(200, 157, 124, 0.15);
+}
+
+.linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--cor-borda);
+}
+
+.linha.total {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+  border-bottom: none;
+  padding-top: 12px;
+}
+
+.linha.total span:last-child {
+  color: var(--cor-primaria);
+}
+
+.resumo .acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   TAGS / BADGES (PRODUTO / SERVIÇO)
+   ========================================================================== */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: var(--cor-rosa-suave);
+  color: var(--cor-primaria);
+  border: 1px solid rgba(200, 157, 124, 0.3);
+}
+
+/* ==========================================================================
+   MENSAGENS E BOTÕES
+   ========================================================================== */
+.msg {
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  margin-bottom: 20px;
+}
+
+.msg.ok {
+  background-color: var(--cor-sucesso-fundo);
+  color: var(--cor-sucesso);
+  border-color: rgba(78, 128, 97, 0.2);
+}
+
+.msg.err {
+  background-color: var(--cor-erro-fundo);
+  color: var(--cor-erro);
+  border-color: rgba(201, 85, 85, 0.2);
+}
+
+.btn {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: var(--cor-primaria-hover);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn.claro {
+  background-color: var(--cor-rosa-suave);
+  color: var(--cor-primaria);
+}
+
+.btn.claro:hover:not(:disabled) {
+  background-color: #f3ded7;
+  color: var(--cor-primaria-hover);
+}
+
+.btn.peq {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  width: auto;
+}
+
+.btn.vermelho {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+}
+
+.btn.vermelho:hover:not(:disabled) {
+  background-color: var(--cor-primaria-hover);
+}
+
+/* Estilo do botão de remover na tabela */
+td .btn.vermelho {
+  background-color: transparent;
+  color: var(--cor-erro);
+  border: 1px solid var(--cor-erro-fundo);
+}
+
+td .btn.vermelho:hover:not(:disabled) {
+  background-color: var(--cor-erro-fundo);
+  color: var(--cor-erro-hover);
+  transform: none;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .duas {
+    flex-direction: column;
+  }
+
+  .resumo {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .topo {
+    padding: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .topo .logo {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .faixa {
+    padding: 24px 16px;
+  }
 }

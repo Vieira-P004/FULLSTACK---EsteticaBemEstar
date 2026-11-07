@@ -6,7 +6,7 @@ import { PedidoCriado, PedidoDto, PessoaResumo, PedidoResumo, PedidoDetalhe } fr
 @Injectable({ providedIn: 'root' })
 export class PedidoService {
   private http = inject(HttpClient);
-  private api = 'http://localhost:5000/api'; // ajuste para a porta da sua API
+  private api = 'https://localhost:7248/api'; // ajuste para a porta da sua API
 
   /** Identifica o cliente pelo CPF usando GET /api/pessoas (sem login, como pede o roteiro). */
   buscarClientePorCpf(cpf: string): Observable<PessoaResumo | undefined> {

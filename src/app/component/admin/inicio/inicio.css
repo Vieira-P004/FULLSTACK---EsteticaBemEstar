@@ -1,118 +1,276 @@
-:root{
-    --verde:#223f38;
-    --verde2:#2f574d;
-    --sage:#d9ded8;
-    --papel:#f6f7f5;
-    --vermelho:#c00000;
-    --texto:#1d2623;
-    --borda:#b9c2bb
-}
-*{
-    box-sizing:border-box
-}
-
-body{
-    margin:0;
-    font:16px/1.5 system-ui,sans-serif;color:var(--texto);
-    background:#fff
-}
-
-h1,h2,h3,.logo{
-    font-family:Georgia,serif
-}
-a{
-    color:inherit
-}
-:focus-visible{
-    outline:3px solid #e0a100;
-    outline-offset:2px
+/* ==========================================================================
+   RESET & VARIÁVEIS DE CORES (TEMA ESTÉTICA / BELEZA)
+   ========================================================================== */
+:host {
+  --cor-fundo: #faf6f0;            /* Nude clarinho de fundo */
+  --cor-superficie: #ffffff;       /* Branco para cards */
+  --cor-primaria: #c89d7c;         /* Dourado / Rose Gold suave */
+  --cor-primaria-hover: #b08565;
+  --cor-rosa-suave: #f9ece8;       /* Tom de rosa seco/blush */
+  --cor-texto: #332c28;            /* Marrom bem escuro para o texto */
+  --cor-texto-suave: #736862;
+  --cor-borda: #eae1d8;
+  --cor-erro: #d9534f;
+  --cor-erro-fundo: #fdf2f2;
+  --sombra-card: 0 8px 24px rgba(160, 130, 110, 0.08);
+  --sombra-hover: 0 12px 28px rgba(160, 130, 110, 0.15);
+  --raio-borda: 16px;
+  --fonte-principal: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  
+  display: block;
+  font-family: var(--fonte-principal);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
 }
 
-.admin{
-    display:grid;
-    grid-template-columns:220px 1fr;
-    min-height:70vh
+/* ==========================================================================
+   ESTRUTURA PRINCIPAL
+   ========================================================================== */
+.tela {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.lateral{
-    background:var(--sage);
-    padding:1rem;
-    display:flex;
-    flex-direction:column;
-    gap:.2rem
+.admin {
+  display: flex;
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  gap: 32px;
+  box-sizing: border-box;
 }
 
-.lateral a{
-    padding:.5rem .7rem;
-    border-radius:4px;
-    text-decoration:none
+/* ==========================================================================
+   TOPO / NAVBAR
+   ========================================================================== */
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background-color: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
-.lateral a:hover{
-    background:#fff
+.topo .logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  text-transform: lowercase;
 }
 
-.painel{
-    padding:1.5rem;
-    min-width:0
+.topo span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--cor-texto-suave);
+  background: var(--cor-rosa-suave);
+  padding: 6px 16px;
+  border-radius: 20px;
 }
 
-.painel h2{
-    margin-top:0
+.topo a:not(.logo) {
+  color: var(--cor-primaria);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: opacity 0.2s;
 }
 
-.kpis{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:1rem;margin-bottom:1.5rem
+.topo a:not(.logo):hover {
+  opacity: 0.8;
 }
 
-.kpi{
-    background:var(--papel);
-    border:1px solid var(--borda);
-    border-left:5px solid var(--verde);
-    border-radius:6px;padding:1rem
+/* ==========================================================================
+   MENU LATERAL (ASIDE)
+   ========================================================================== */
+.lateral {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--cor-superficie);
+  padding: 20px;
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-card);
+  height: fit-content;
 }
 
-.kpi b{
-    display:block;
-    font:700 1.8rem Georgia,serif
+.lateral a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  transition: all 0.25s ease;
 }
 
-.pedido{
-    border:1px solid var(--borda);
-    border-radius:6px;
-    margin-bottom:1rem
+.lateral a:hover {
+  background-color: var(--cor-rosa-suave);
+  color: var(--cor-primaria);
+  transform: translateX(4px);
 }
 
-.pedido header{
-    background:var(--papel);
-    padding:.7rem 1rem;
-    display:flex;
-    gap:1rem;
-    flex-wrap:wrap;
-    justify-content:space-between;
-    align-items:center
+/* Estilo para link ativo no Angular (se usado routerLinkActive="ativo") */
+.lateral a.ativo {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  font-weight: 600;
 }
 
-.pedido .rolagem{
-    padding:0 1rem 1rem
+/* ==========================================================================
+   PAINEL DE CONTEÚDO
+   ========================================================================== */
+.painel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.rodape{
-    background:var(--verde);
-    color:#fff;
-    text-align:center;
-    padding:1.5rem;
-    font-size:.85rem
+.painel h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin: 0;
+  letter-spacing: -0.5px;
 }
 
-@media(max-width:760px){
-    .duas,.admin{
-        grid-template-columns:1fr
-    }
-    .lateral{
-        flex-direction:row;
-        flex-wrap:wrap
-    }
+/* ==========================================================================
+   CARREGAMENTO E MENSAGEM DE ERRO
+   ========================================================================== */
+.painel > p {
+  color: var(--cor-texto-suave);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.msg.err {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--cor-erro-fundo);
+  border: 1px solid var(--cor-erro);
+  color: var(--cor-erro);
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+}
+
+.btn.peq {
+  background-color: var(--cor-erro);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: opacity 0.2s;
+}
+
+.btn.peq:hover {
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   CARDS DE INDICADORES (KPIS)
+   ========================================================================== */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.kpi {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px;
+  background-color: var(--cor-superficie);
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-card);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--cor-primaria);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.kpi:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-hover);
+  border-color: var(--cor-primaria);
+}
+
+.kpi:hover::before {
+  opacity: 1;
+}
+
+.kpi b {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.kpi {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 900px) {
+  .admin {
+    flex-direction: column;
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .lateral {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  .lateral a {
+    white-space: nowrap;
+  }
+
+  .topo {
+    padding: 16px;
+  }
 }

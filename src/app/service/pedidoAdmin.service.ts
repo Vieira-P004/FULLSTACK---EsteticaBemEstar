@@ -6,7 +6,7 @@ import { PedidoAdmin } from '../model/pedido.model';
 @Injectable({ providedIn: 'root' })
 export class PedidoAdminService {
   private http = inject(HttpClient);
-  private url = 'http://localhost:5000/api/pedidos'; // ajuste para a porta da sua API
+  private url = 'https://localhost:7248/api'; // ajuste para a porta da sua API
 
   /** GET /api/pedidos?status=Aberto — sem status, lista todos. */
   listar(status?: string): Observable<PedidoAdmin[]> {

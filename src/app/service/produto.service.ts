@@ -8,7 +8,7 @@ export class ProdutoService {
   private http = inject(HttpClient);
   // O roteiro usa /api/itens para produtos e serviços. Se o seu backend tiver
   // um controller próprio, troque por 'http://localhost:5000/api/produtos'.
-  private url = 'http://localhost:5000/api/itens';
+  private url = 'https://localhost:7248/api';
 
   listar(): Observable<Produto[]> {
     return this.http.get<Produto[]>(this.url);

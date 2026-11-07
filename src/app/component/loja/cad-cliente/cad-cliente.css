@@ -1,56 +1,300 @@
-.busca{
-    display:flex;
-    gap:.5rem;
-    margin-bottom:1.5rem
+/* ==========================================================================
+   RESET & VARIÁVEIS DE CORES (TEMA ESTÉTICA / BELEZA)
+   ========================================================================== */
+:host {
+  --cor-fundo: #faf6f0;            /* Nude clarinho de fundo */
+  --cor-superficie: #ffffff;       /* Branco para o card de formulário */
+  --cor-primaria: #c89d7c;         /* Dourado / Rose Gold suave */
+  --cor-primaria-hover: #b08565;
+  --cor-rosa-suave: #f9ece8;       /* Tom de rosa seco / blush */
+  --cor-texto: #332c28;            /* Marrom bem escuro para o texto */
+  --cor-texto-suave: #736862;
+  --cor-borda: #eae1d8;
+  
+  /* Status & Ações */
+  --cor-sucesso: #4e8061;
+  --cor-sucesso-fundo: #edf5f0;
+  --cor-erro: #c95555;
+  --cor-erro-fundo: #fdf2f2;
+  --cor-erro-hover: #a84242;
+  --cor-readonly: #f5f0eb;
+
+  --sombra-card: 0 8px 24px rgba(160, 130, 110, 0.08);
+  --raio-borda: 16px;
+  --fonte-principal: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+  
+  display: block;
+  font-family: var(--fonte-principal);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
 }
 
-input,select,textarea{
-    font:inherit;
-    padding:.5rem .6rem;
-    border:1px solid var(--borda);
-    border-radius:4px;
-    background:#fff;
-    width:100%
+/* ==========================================================================
+   ESTRUTURA PRINCIPAL
+   ========================================================================== */
+.tela {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-input:invalid:not(:placeholder-shown){
-    border-color:var(--vermelho)
+main {
+  flex: 1;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto 40px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
 }
 
-label{
-    display:block;
-    font-size:.9rem;
-    margin-bottom:.2rem
+/* ==========================================================================
+   TOPO / NAVBAR (LOJA PÚBLICA)
+   ========================================================================== */
+.topo {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 32px;
+  background-color: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
-.grade{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:1rem
+.topo .logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--cor-primaria);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  text-transform: lowercase;
+  margin-right: auto;
 }
 
-.form{
-    background:var(--papel);
-    border:1px solid var(--borda);
-    border-radius:6px;
-    padding:1.5rem;
-    max-width:760px;
-    margin:0 auto
+.topo a:not(.logo) {
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 8px;
 }
 
-.form .grade{margin-bottom:1rem}
-.erro{color:var(--vermelho);font-size:.8rem;margin:.2rem 0 0}
-.acoes{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1rem}
-.btn{display:inline-block;background:var(--verde);color:#fff;border:0;border-radius:4px;padding:.55rem 1.1rem;font:inherit;cursor:pointer;text-decoration:none;text-align:center}
-.btn:hover{background:var(--verde2)}
-.btn.vermelho{background:var(--vermelho)}.btn.claro{background:#fff;color:var(--verde);border:1px solid var(--verde)}
-.btn.peq{padding:.25rem .6rem;font-size:.85rem}
-.msg{padding:.7rem 1rem;border-radius:4px;margin-bottom:1rem;font-size:.95rem}
-.msg.ok{
-    background:#dff0e3;
-    border-left:4px solid #2e7d46
+.topo a:not(.logo):hover {
+  color: var(--cor-primaria);
+  background-color: var(--cor-rosa-suave);
 }
-.msg.err{
-    background:#fbe3e3;
-    border-left:4px solid var(--vermelho)
+
+/* ==========================================================================
+   FAIXA DE TÍTULO
+   ========================================================================== */
+.faixa {
+  background-color: var(--cor-rosa-suave);
+  padding: 32px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--cor-borda);
+  margin-bottom: 32px;
+}
+
+.faixa h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* ==========================================================================
+   FORMULÁRIO DE CADASTRO
+   ========================================================================== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: var(--cor-superficie);
+  padding: 36px;
+  border-radius: var(--raio-borda);
+  border: 1px solid var(--cor-borda);
+  box-shadow: var(--sombra-card);
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px 24px;
+}
+
+.grade > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.grade label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto-suave);
+  margin-bottom: 6px;
+}
+
+.grade input,
+.grade select {
+  padding: 12px 16px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 10px;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.grade input:focus,
+.grade select:focus {
+  border-color: var(--cor-primaria);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(200, 157, 124, 0.15);
+}
+
+/* Campos preenchidos automaticamente (ViaCEP) */
+.grade input[readonly] {
+  background-color: var(--cor-readonly);
+  color: var(--cor-texto-suave);
+  cursor: not-allowed;
+  border-color: var(--cor-borda);
+}
+
+/* Ícone do calendário */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: opacity(0.6);
+}
+
+/* ==========================================================================
+   MENSAGENS E ERROS
+   ========================================================================== */
+.msg {
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.msg.ok {
+  background-color: var(--cor-sucesso-fundo);
+  color: var(--cor-sucesso);
+  border-color: rgba(78, 128, 97, 0.2);
+}
+
+.msg.err {
+  background-color: var(--cor-erro-fundo);
+  color: var(--cor-erro);
+  border-color: rgba(201, 85, 85, 0.2);
+}
+
+.erro {
+  color: var(--cor-erro);
+  font-size: 0.8rem;
+  margin: 4px 0 0 2px;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   AÇÕES E BOTÕES
+   ========================================================================== */
+.acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  background-color: var(--cor-primaria);
+  color: #ffffff;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: var(--cor-primaria-hover);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn.claro {
+  background-color: var(--cor-rosa-suave);
+  color: var(--cor-primaria);
+}
+
+.btn.claro:hover:not(:disabled) {
+  background-color: #f3ded7;
+  color: var(--cor-primaria-hover);
+}
+
+.btn.vermelho {
+  background-color: transparent;
+  color: var(--cor-erro);
+  border: 1px solid var(--cor-erro-fundo);
+}
+
+.btn.vermelho:hover:not(:disabled) {
+  background-color: var(--cor-erro-fundo);
+  color: var(--cor-erro-hover);
+  transform: none;
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 768px) {
+  .topo {
+    padding: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .topo .logo {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .faixa {
+    padding: 24px 16px;
+  }
+
+  .form {
+    padding: 20px;
+  }
+
+  .grade {
+    grid-template-columns: 1fr;
+  }
+
+  .acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+  }
 }
