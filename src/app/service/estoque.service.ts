@@ -6,7 +6,7 @@ import { EstoqueItem } from '../model/estoque.model';
 @Injectable({ providedIn: 'root' })
 export class EstoqueService {
   private http = inject(HttpClient);
-  private url = 'https://localhost:7248/api/Estoque'; // ajuste para a porta da sua API
+  private url = 'https://localhost:7077/api/Estoque'; // ajuste para a porta da sua API
 
   /** GET /api/estoque — registros de estoque com as informações dos produtos. */
   listar(): Observable<EstoqueItem[]> {

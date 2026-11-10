@@ -14,6 +14,7 @@ import { Carrinho } from './component/loja/carrinho/carrinho';
 import { Catalogo } from './component/loja/catalogo/catalogo';
 import { MeusPedidos } from './component/loja/meus-pedidos/meus-pedidos';
 
+
 export const routes: Routes = [
     {
         path:'',
@@ -67,5 +68,6 @@ export const routes: Routes = [
     {
         path:'categorias',
         component:Categorias
-    }
+    },
+    { path: '', redirectTo: 'catalogo', pathMatch: 'full' }
 ];

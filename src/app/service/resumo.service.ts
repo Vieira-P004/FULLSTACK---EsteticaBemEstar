@@ -17,7 +17,7 @@ export interface DadosResumo {
 @Injectable({ providedIn: 'root' })
 export class ResumoService {
   private http = inject(HttpClient);
-  private api = 'https://localhost:7248/api'; // ajuste para a porta da sua API
+  private api = 'https://localhost:7077/api'; // ajuste para a porta da sua API
 
   /** Se uma consulta falhar, ela vira null e as outras continuam funcionando. */
   carregar(): Observable<DadosResumo> {
@@ -25,10 +25,10 @@ export class ResumoService {
       this.http.get<T[]>(`${this.api}/${rota}`).pipe(catchError(() => of(null)));
 
     return forkJoin({
-      pessoas: buscar<unknown>('pessoas'),
-      itens: buscar<ItemResumo>('itens'),
-      pedidos: buscar<PedidoResumoDash>('pedidos'),
-      estoque: buscar<EstoqueResumo>('estoque'),
+      pessoas: buscar<unknown>('Pessoa'),
+      itens: buscar<ItemResumo>('Item'),
+      pedidos: buscar<PedidoResumoDash>('Atendimento'),
+      estoque: buscar<EstoqueResumo>('Estoque'),
     });
   }
 }
