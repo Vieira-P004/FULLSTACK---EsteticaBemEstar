@@ -55,7 +55,7 @@ export class Clientes implements OnInit {
     this.mensagem.set(null);
     this.carregando.set(true);
     this.service.buscarPorId(id).subscribe({
-      next: c => { this.clientes.set([c]); this.carregando.set(false); },
+      next: lista => { this.clientes.set(lista); this.carregando.set(false); },
       error: (e: HttpErrorResponse) => {
         this.clientes.set([]);
         if (e.status === 404) { this.carregando.set(false); this.mostrar('err', `Cliente ${id} não localizado.`); }

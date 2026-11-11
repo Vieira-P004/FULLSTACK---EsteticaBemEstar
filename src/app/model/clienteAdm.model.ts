@@ -28,7 +28,7 @@ export interface ClienteLista {
   idPessoa: number;
   nome: string;
   cpf: number;
-  dataNascimento?: string;
+  dataNascimento?: Date;
   sexo?: string;
   email: string;
   telefone: number;

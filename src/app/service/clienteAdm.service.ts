@@ -9,7 +9,7 @@ export class ClienteService {
   private api = 'https://localhost:7077/api'; // ajuste para a porta da sua API
 
   cadastrar(cliente: ClienteDto): Observable<unknown> {
-    return this.http.post(`${this.api}/Pessoa`, cliente);
+    return this.http.post(`${this.api}/PessoaEndereco`, cliente);
   }
 
   /** GET /api/pessoas — painel administrativo. */
@@ -18,8 +18,8 @@ export class ClienteService {
   }
 
   /** GET /api/pessoas/{id} — 404 se não existir. */
-  buscarPorId(id: number): Observable<ClienteLista> {
-    return this.http.get<ClienteLista>(`${this.api}/PessoaEndereco/${id}`);
+  buscarPorId(id: number): Observable<ClienteLista[]> {
+    return this.http.get<ClienteLista[]>(`${this.api}/PessoaEndereco/${id}`);
   }
 
   // Só para preencher a tela: a API não guarda logradouro, bairro, cidade e UF.
