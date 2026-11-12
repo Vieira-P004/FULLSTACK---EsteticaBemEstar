@@ -56,23 +56,26 @@ export class Carrinho {readonly carrinho = inject(CarrinhoService);
   }
  
   private enviarPedido(idPessoa: number): void {
-    // preço e estoque são validados pelo backend; aqui vão só ids e quantidades
-    const pedido = {
-      idPessoa,
-      itens: this.carrinho.itens().map(i => ({ idItem: i.item.idItem, quantidade: i.quantidade })),
-    };
- 
-    this.pedidoService.registrar(pedido).subscribe({
-      next: r => {
-        this.enviando.set(false);
-        this.carrinho.limpar();
-        this.cpf.set('');
-        this.mostrar('ok', `Pedido nº ${r.idAtendimento} registrado! Ele está aberto, aguardando tratamento.`);
-      },
-      error: e => this.falha(e),
-    });
-  }
- 
+  // preço e estoque são validados pelo backend; aqui vão só ids e quantidades
+  const pedido = {
+    idPessoa,
+    statusAtendimento: 'A',   // char(1): confirme o valor usado no seu banco
+    itens: this.carrinho.itens().map(i => ({
+      idItem: i.item.idItem,
+      quantidade: i.quantidade,
+    })),
+  };
+
+  this.pedidoService.registrar(pedido).subscribe({
+    next: r => {
+      this.enviando.set(false);
+      this.carrinho.limpar();
+      this.cpf.set('');
+      this.mostrar('ok', `Pedido nº ${r.idAtendimento} registrado! Ele está aberto, aguardando tratamento.`);
+    },
+    error: e => this.falha(e),
+  });
+}
   private falha(e: HttpErrorResponse): void {
     this.enviando.set(false);
     if (e.status === 0) { this.mostrar('err', 'Falha de comunicação com o servidor. Verifique se a API está em execução.'); return; }

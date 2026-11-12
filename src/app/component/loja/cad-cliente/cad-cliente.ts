@@ -110,7 +110,8 @@ private fb = inject(FormBuilder);
       sexo: f.sexo,
       email: f.email.trim().toLowerCase(),
       telefone: Number(soDigitos(f.telefone)),
-      endereco: { cep: soDigitos(f.cep), numero: f.numero.trim(), complemento: f.complemento.trim() || null },
+      ativoPessoa: 'S',
+      enderecos:[ { cep: soDigitos(f.cep), numero: f.numero.trim(), complemento: f.complemento.trim() || null }],
     };
  
     this.salvando.set(true);
@@ -135,9 +136,10 @@ private fb = inject(FormBuilder);
   private textoErro(e: HttpErrorResponse): string {
     if (e.status === 0) return 'Falha de comunicação com o servidor. Verifique se a API está em execução.';
     if (e.status === 409) return typeof e.error === 'string' ? e.error : 'CPF ou e-mail já cadastrado.';
-    if (e.status === 400) {
-      const msg = typeof e.error === 'string' ? e.error : e.error?.message ?? e.error?.title;
-      return msg ?? 'Dados inválidos. Revise o formulário.';
+       if (e.status === 400) {
+    const erros = e.error?.errors as Record<string, string[]> | undefined;
+    if (erros) return Object.values(erros).flat().join(' ');
+    return typeof e.error === 'string' ? e.error : e.error?.title ?? 'Dados inválidos. Revise o formulário.';
     }
     return 'Não foi possível salvar o cliente. Tente novamente.';
   }
