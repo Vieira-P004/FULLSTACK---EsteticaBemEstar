@@ -2,16 +2,17 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Servico, ServicoDto } from '../model/servico.model';
+import { tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ServicoService {
   private http = inject(HttpClient);
   // O roteiro usa /api/itens para produtos e serviços.
-  private url = 'https://localhost:7077/api/ProdutoItem'; // ajuste para a porta da sua API
+  private url = 'https://localhost:7077/api/Item'; // ajuste para a porta da sua API
 
-  listar(): Observable<Servico[]> {
-    return this.http.get<Servico[]>(this.url);
-  }
+listar(): Observable<Servico[]> {
+ return this.http.get<Servico[]>(this.url);
+}
 
   buscarPorId(id: number): Observable<Servico> {
     return this.http.get<Servico>(`${this.url}/${id}`);

@@ -36,7 +36,7 @@ export class Catalogo {
     const tipo = this.tipo();
     const cat = this.categoriaSelecionada();
     return this.itens().filter(i =>
-      (cat === null || i.idCategoria === cat) &&
+      (cat === null || i.idcategoria === cat) &&
       (!tipo || i.tipoItem === tipo) &&
       (!termo || i.item.toLowerCase().includes(termo) || (i.descricaoItem ?? '').toLowerCase().includes(termo))
     );

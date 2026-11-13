@@ -64,7 +64,7 @@ export class Categorias implements OnInit {
  
     const id = this.editandoId();
     const duplicada = this.categorias().some(c =>
-      c.idCategoria !== id && c.categoria.toLowerCase() === nome.toLowerCase());
+      c.idcategoria !== id && c.categoria.toLowerCase() === nome.toLowerCase());
     if (duplicada) { this.mostrar('err', 'Já existe uma categoria com esse nome.'); return; }
  
     this.salvando.set(true);
@@ -82,7 +82,7 @@ export class Categorias implements OnInit {
   }
  
   editar(c: Categoria): void {
-    this.editandoId.set(c.idCategoria);
+    this.editandoId.set(c.idcategoria);
     this.nome.setValue(c.categoria);
     this.mensagem.set(null);
   }
@@ -95,7 +95,7 @@ export class Categorias implements OnInit {
   excluir(c: Categoria): void {
     if (!confirm(`Excluir a categoria "${c.categoria}"?`)) return;
  
-    this.service.excluir(c.idCategoria).subscribe({
+    this.service.excluir(c.idcategoria).subscribe({
       next: () => { this.mostrar('ok', 'Categoria excluída.'); this.listar(); },
       error: (e: HttpErrorResponse) => {
         // chave estrangeira: há itens usando a categoria

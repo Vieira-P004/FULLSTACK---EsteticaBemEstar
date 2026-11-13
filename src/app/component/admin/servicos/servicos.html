@@ -7,7 +7,7 @@
 
   <div class="admin">
     <aside class="lateral">
-      <a routerLink="/admin">Início</a>
+      <a routerLink="/inicio">Início</a>
       <a routerLink="/clientes">Clientes</a>
       <a routerLink="/categorias">Categorias</a>
       <a routerLink="/produtos">Produtos</a>
@@ -34,11 +34,12 @@
           </div>
           <div>
             <label for="sc">Categoria *</label>
-            <select id="sc" formControlName="idCategoria">
+            <select id="sc" formControlName="idcategoria">
               <option [ngValue]="0">Selecione</option>
-              @for (c of categorias(); track c.idCategoria) { <option [ngValue]="c.idCategoria">{{ c.categoria }}</option> }
+              @for (c of categorias(); track c.idcategoria) {
+                 <option [ngValue]="c.idcategoria">{{ c.categoria }}</option> }
             </select>
-            @if (erro('idCategoria'); as e) { <p class="erro">{{ e }}</p> }
+            @if (erro('idcategoria'); as e) { <p class="erro">{{ e }}</p> }
           </div>
           <div>
             <label for="sp">Preço (R$) *</label>
@@ -90,7 +91,7 @@
                 <tr>
                   <td>{{ s.idItem }}</td>
                   <td>{{ s.item }}</td>
-                  <td>{{ nomeCategoria(s.idCategoria) }}</td>
+                  <td>{{ nomeCategoria(s.idcategoria) }}</td>
                   <td>{{ s.preco | currency:'BRL' }}</td>
                   <td><span class="tag" [class.ok]="ativo(s)" [class.off]="!ativo(s)">{{ ativo(s) ? 'Ativo' : 'Inativo' }}</span></td>
                   <td>

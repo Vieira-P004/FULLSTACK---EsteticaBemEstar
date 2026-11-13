@@ -13,7 +13,7 @@
       <a routerLink="/produtos">Produtos</a>
       <a routerLink="/servicos">Serviços</a>
       <a routerLink="/pedidos-em-aberto">Pedidos</a>
-      <a routerLink="/entrada-produtos">Entrada de produtos</a>
+      <a routerLink="/entradaProdutos">Entrada de produtos</a>
       <a routerLink="/estoque">Estoque</a>
     </aside>
 
@@ -34,11 +34,11 @@
           </div>
           <div>
             <label for="pc">Categoria *</label>
-            <select id="pc" formControlName="idCategoria">
+            <select id="pc" formControlName="idcategoria">
               <option [ngValue]="0">Selecione</option>
-              @for (c of categorias(); track c.idCategoria) { <option [ngValue]="c.idCategoria">{{ c.categoria }}</option> }
+              @for (c of categorias(); track c.idcategoria) { <option [ngValue]="c.idcategoria">{{ c.categoria }}</option> }
             </select>
-            @if (erro('idCategoria'); as e) { <p class="erro">{{ e }}</p> }
+            @if (erro('idcategoria'); as e) { <p class="erro">{{ e }}</p> }
           </div>
           <div>
             <label for="pcp">Código de preço</label>
@@ -104,7 +104,7 @@
                 <tr>
                   <td>{{ p.idItem }}</td>
                   <td>{{ p.item }}</td>
-                  <td>{{ nomeCategoria(p.idCategoria) }}</td>
+                  <td>{{ nomeCategoria(p.idcategoria) }}</td>
                   <td>{{ p.preco | currency:'BRL' }}</td>
                   <td>{{ p.precoVenda !== null ? (p.precoVenda | currency:'BRL') : '—' }}</td>
                   <td>{{ p.unidade }}</td>

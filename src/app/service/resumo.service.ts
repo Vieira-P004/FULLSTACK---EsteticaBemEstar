@@ -25,7 +25,7 @@ export class ResumoService {
       this.http.get<T[]>(`${this.api}/${rota}`).pipe(catchError(() => of(null)));
 
     return forkJoin({
-      pessoas: buscar<unknown>('Pessoa'),
+      pessoas: buscar<unknown>('PessoaEndereco'),
       itens: buscar<ItemResumo>('Item'),
       pedidos: buscar<PedidoResumoDash>('Atendimento'),
       estoque: buscar<EstoqueResumo>('Estoque'),

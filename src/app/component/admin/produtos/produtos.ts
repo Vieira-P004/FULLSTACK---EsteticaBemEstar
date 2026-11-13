@@ -33,7 +33,7 @@ export class Produtos implements OnInit {
  
   form = this.fb.nonNullable.group({
     item: ['', [Validators.required, Validators.maxLength(40)]],
-    idCategoria: [0, [Validators.required, Validators.min(1)]],
+    idcategoria: [0, [Validators.required, Validators.min(1)]],
     codigoPreco: [null as number | null],
     preco: [0, [Validators.required, Validators.min(0.01)]],
     unidade: ['', [Validators.required, Validators.maxLength(10)]],
@@ -59,7 +59,7 @@ export class Produtos implements OnInit {
   }
  
   nomeCategoria(id: number): string {
-    return this.categorias().find(c => c.idCategoria === id)?.categoria ?? '—';
+    return this.categorias().find(c => c.idcategoria === id)?.categoria ?? '—';
   }
  
   ativo(p: Produto): boolean {
@@ -86,7 +86,7 @@ export class Produtos implements OnInit {
   erro(campo: keyof typeof this.form.controls): string | null {
     const c = this.form.controls[campo];
     if (!c.errors || !(c.touched || c.dirty)) return null;
-    if (c.errors['required'] || (campo === 'idCategoria' && c.errors['min'])) return campo === 'idCategoria' ? 'Selecione uma categoria.' : 'Campo obrigatório.';
+    if (c.errors['required'] || (campo === 'idcategoria' && c.errors['min'])) return campo === 'idcategoria' ? 'Selecione uma categoria.' : 'Campo obrigatório.';
     if (c.errors['min']) return 'Informe um valor maior que zero.';
     if (c.errors['maxlength']) return `Máximo de ${c.errors['maxlength'].requiredLength} caracteres.`;
     return 'Valor inválido.';
@@ -120,7 +120,7 @@ export class Produtos implements OnInit {
     this.precoVendaEdicao.set(p.precoVenda);
     this.form.setValue({
       item: p.item,
-      idCategoria: p.idCategoria,
+      idcategoria: p.idcategoria,
       codigoPreco: p.codigoPreco,
       preco: p.preco,
       unidade: p.unidade,
@@ -137,7 +137,7 @@ export class Produtos implements OnInit {
   }
  
   limpar(apagarMensagem = true): void {
-    this.form.reset({ item: '', idCategoria: 0, codigoPreco: null, preco: 0, unidade: '', ativo: 'S', descricaoItem: '' });
+    this.form.reset({ item: '', idcategoria: 0, codigoPreco: null, preco: 0, unidade: '', ativo: 'S', descricaoItem: '' });
     if (apagarMensagem) this.mensagem.set(null);
   }
  
@@ -147,7 +147,7 @@ export class Produtos implements OnInit {
     if (desativar && !confirm(`Desativar o produto "${p.item}"?`)) return;
  
     const dto: ProdutoDto = {
-      idCategoria: p.idCategoria, item: p.item, descricaoItem: p.descricaoItem, preco: p.preco,
+      idcategoria: p.idcategoria, item: p.item, descricaoItem: p.descricaoItem, preco: p.preco,
       tipoItem: 'P', ativoProdutoServico: desativar ? 'N' : 'S', codigoPreco: p.codigoPreco, unidade: p.unidade,
     };
     this.service.atualizar(p.idItem, dto).subscribe({
@@ -161,7 +161,7 @@ export class Produtos implements OnInit {
  
   private montarDto(f: ReturnType<typeof this.form.getRawValue>): ProdutoDto {
     return {
-      idCategoria: Number(f.idCategoria),
+      idcategoria: Number(f.idcategoria),
       item: f.item.trim(),
       descricaoItem: f.descricaoItem.trim(),
       preco: Number(f.preco),

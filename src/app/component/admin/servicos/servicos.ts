@@ -33,7 +33,7 @@ export class Servicos implements OnInit {
  
   form = this.fb.nonNullable.group({
     item: ['', [Validators.required, Validators.maxLength(40)]],
-    idCategoria: [0, [Validators.required, Validators.min(1)]],
+    idcategoria: [0, [Validators.required, Validators.min(1)]],
     preco: [0, [Validators.required, Validators.min(0.01)]],
     ativo: ['S', Validators.required],
     descricaoItem: ['', Validators.maxLength(200)],
@@ -46,18 +46,34 @@ export class Servicos implements OnInit {
   carregar(): void {
     this.carregando.set(true);
     this.buscaId.reset();
-    forkJoin({ itens: this.service.listar(), categorias: this.categoriaService.listar() }).subscribe({
+    forkJoin({ 
+      itens: this.service.listar(), categorias: this.categoriaService.listar() 
+    }).subscribe({
       next: ({ itens, categorias }) => {
-        this.categorias.set(categorias);
-        this.servicos.set(itens.filter(i => i.tipoItem === 'S'));   // produtos ficam na outra tela
-        this.carregando.set(false);
-      },
+
+  console.log('TODOS OS ITENS:', itens);
+
+  console.table(itens.map(i => ({
+    idItem: i.idItem,
+    item: i.item,
+    tipoItem: i.tipoItem
+  })));
+
+  console.log('CATEGORIAS:', categorias);
+
+  console.table(categorias);
+
+  this.categorias.set(categorias);
+  this.servicos.set(itens.filter(i => i.tipoItem === 'S'));
+
+  this.carregando.set(false);
+},
       error: e => this.falha(e),
     });
   }
  
   nomeCategoria(id: number): string {
-    return this.categorias().find(c => c.idCategoria === id)?.categoria ?? '—';
+    return this.categorias().find(c => c.idcategoria === id)?.categoria ?? '—';
   }
  
   ativo(s: Servico): boolean {
@@ -84,7 +100,7 @@ export class Servicos implements OnInit {
   erro(campo: keyof typeof this.form.controls): string | null {
     const c = this.form.controls[campo];
     if (!c.errors || !(c.touched || c.dirty)) return null;
-    if (c.errors['required'] || (campo === 'idCategoria' && c.errors['min'])) return campo === 'idCategoria' ? 'Selecione uma categoria.' : 'Campo obrigatório.';
+    if (c.errors['required'] || (campo === 'idcategoria' && c.errors['min'])) return campo === 'idcategoria' ? 'Selecione uma categoria.' : 'Campo obrigatório.';
     if (c.errors['min']) return 'Informe um valor maior que zero.';
     if (c.errors['maxlength']) return `Máximo de ${c.errors['maxlength'].requiredLength} caracteres.`;
     return 'Valor inválido.';
@@ -94,12 +110,21 @@ export class Servicos implements OnInit {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.mostrar('err', 'Corrija os campos destacados antes de salvar.');
+      console.log(
+    'VALOR DA CATEGORIA:',
+    this.form.controls.idcategoria.value
+    );
+
+    console.log(
+    'ERROS DA CATEGORIA:',
+    this.form.controls.idcategoria.errors
+    );
       return;
     }
  
     const f = this.form.getRawValue();
     const dto: ServicoDto = {
-      idCategoria: Number(f.idCategoria),
+      idcategoria: Number(f.idcategoria),
       item: f.item.trim(),
       descricaoItem: f.descricaoItem.trim(),
       preco: Number(f.preco),
@@ -126,7 +151,7 @@ export class Servicos implements OnInit {
     this.editandoId.set(s.idItem);
     this.form.setValue({
       item: s.item,
-      idCategoria: s.idCategoria,
+      idcategoria: s.idcategoria,
       preco: s.preco,
       ativo: s.ativoProdutoServico,
       descricaoItem: s.descricaoItem ?? '',
@@ -140,7 +165,7 @@ export class Servicos implements OnInit {
   }
  
   limpar(apagarMensagem = true): void {
-    this.form.reset({ item: '', idCategoria: 0, preco: 0, ativo: 'S', descricaoItem: '' });
+    this.form.reset({ item: '', idcategoria: 0, preco: 0, ativo: 'S', descricaoItem: '' });
     if (apagarMensagem) this.mensagem.set(null);
   }
  
@@ -150,7 +175,7 @@ export class Servicos implements OnInit {
     if (desativar && !confirm(`Desativar o serviço "${s.item}"?`)) return;
  
     const dto: ServicoDto = {
-      idCategoria: s.idCategoria, item: s.item, descricaoItem: s.descricaoItem, preco: s.preco,
+      idcategoria: s.idcategoria, item: s.item, descricaoItem: s.descricaoItem, preco: s.preco,
       tipoItem: 'S', ativoProdutoServico: desativar ? 'N' : 'S',
     };
     this.service.atualizar(s.idItem, dto).subscribe({

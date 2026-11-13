@@ -52,9 +52,9 @@
           <table>
             <thead><tr><th>ID</th><th>Categoria</th><th>Ações</th></tr></thead>
             <tbody>
-              @for (c of categorias(); track c.idCategoria) {
+              @for (c of categorias(); track c.idcategoria) {
                 <tr>
-                  <td>{{ c.idCategoria }}</td>
+                  <td>{{ c.idcategoria }}</td>
                   <td>{{ c.categoria }}</td>
                   <td>
                     <button class="btn peq" (click)="editar(c)">Editar</button>

@@ -1,7 +1,7 @@
 // Ajuste ao DTO da sua API (Swagger de /api/itens). Combina as tabelas item + produto.
 export interface Produto {
   idItem: number;
-  idCategoria: number;
+  idcategoria: number;
   item: string;
   descricaoItem: string;
   preco: number;

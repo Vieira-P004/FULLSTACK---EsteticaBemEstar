@@ -1,7 +1,7 @@
 // Ajuste os nomes dos campos conforme o JSON que a sua API devolve (veja no Swagger).
 export interface Item {
   idItem: number;
-  idCategoria: number;
+  idcategoria: number;
   item: string;
   descricaoItem: string;
   preco: number;
@@ -10,7 +10,7 @@ export interface Item {
 }
 
 export interface Categoria {
-  idCategoria: number;
+  idcategoria: number;
   categoria: string;
 }
 

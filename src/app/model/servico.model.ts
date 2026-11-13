@@ -1,7 +1,7 @@
 // Ajuste ao DTO da sua API (Swagger de /api/itens). Serviço usa só a tabela item.
 export interface Servico {
   idItem: number;
-  idCategoria: number;
+  idcategoria: number;
   item: string;
   descricaoItem: string;
   preco: number;

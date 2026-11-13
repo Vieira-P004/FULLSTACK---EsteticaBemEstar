@@ -11,8 +11,8 @@
   <div class="faixa">
     <div class="menu-cat">
       <a href="javascript:void(0)" (click)="filtrarPorCategoria(null)">Todos os produtos</a>
-      @for (c of categorias(); track c.idCategoria) {
-        <a href="javascript:void(0)" (click)="filtrarPorCategoria(c.idCategoria)">{{ c.categoria }}</a>
+      @for (c of categorias(); track c.idcategoria) {
+        <a href="javascript:void(0)" (click)="filtrarPorCategoria(c.idcategoria)">{{ c.categoria }}</a>
       }
     </div>
   </div>

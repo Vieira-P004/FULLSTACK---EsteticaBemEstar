@@ -21,7 +21,7 @@ export class CategoriaService {
   }
 
   atualizar(id: number, categoria: string): Observable<unknown> {
-    return this.http.put(`${this.url}/${id}`, { idCategoria: id, categoria });
+    return this.http.put(`${this.url}/${id}`, { idcategoria: id, categoria });
   }
 
   excluir(id: number): Observable<unknown> {

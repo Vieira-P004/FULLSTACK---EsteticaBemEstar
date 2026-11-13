@@ -47,14 +47,14 @@ export class CatalogoService {
       estoque: this.listarEstoque(),
     }).pipe(
       map(({ itens, categorias, estoque }) => {
-        const nomePorCategoria = new Map(categorias.map(c => [c.idCategoria, c.categoria]));
+        const nomePorCategoria = new Map(categorias.map(c => [c.idcategoria, c.categoria]));
         const qtdPorItem = new Map(estoque.map(e => [e.idItem, e.quantidadeEstoque]));
 
         const lista: ItemCatalogo[] = itens
           .filter(i => i.ativoProdutoServico === 'S')
           .map(i => ({
             ...i,
-            nomeCategoria: nomePorCategoria.get(i.idCategoria) ?? '',
+            nomeCategoria: nomePorCategoria.get(i.idcategoria) ?? '',
             quantidadeEstoque: i.tipoItem === 'S' ? null : (qtdPorItem.get(i.idItem) ?? 0),
           }));
 
@@ -71,7 +71,7 @@ export class CatalogoService {
  */
 function normalizarCategoria(c: any): Categoria {
   return {
-    idCategoria: c.idCategoria ?? c.idcategoria ?? c.id,
+    idcategoria: c.idcategoria ?? c.idcategoria ?? c.id,
     categoria: c.categoria ?? c.nome ?? 'Sem nome',
   };
 }
@@ -79,7 +79,7 @@ function normalizarCategoria(c: any): Categoria {
 function normalizarItem(i: any): Item {
   return {
     idItem: i.idItem ?? i.iditem ?? i.id,
-    idCategoria: i.idCategoria ?? i.idcategoria,
+    idcategoria: i.idcategoria ?? i.idCategoria,
     item: i.item ?? i.item1 ?? 'Sem nome',
     descricaoItem: i.descricaoItem ?? i.descricaoitem ?? '',
     preco: Number(i.preco ?? 0),
